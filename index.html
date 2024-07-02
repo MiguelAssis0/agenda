@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+</head>
+
+<body>
+    <div class="login">
+        <h2>Login</h2>
+        <form action="">
+            <input type="email" name="email" id="">
+            <input type="password" name="password" id="">
+        </form>
+    </div>
+
+    <div class="container-login">
+        
+    </div>
+
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import firebase from "firebase/compat/app";
+        import "firebase/compat/auth";
+        import { getFirestore } from "firebase/firestore";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfKUdPBJKjAGPuV3I-u5PztLS-bFtZSB4",
+            authDomain: "todolist-a606d.firebaseapp.com",
+            projectId: "todolist-a606d",
+            storageBucket: "todolist-a606d.appspot.com",
+            messagingSenderId: "135648246164",
+            appId: "1:135648246164:web:6e4aff4a03d274dace3781"
+        };
+
+        // Initialize Firebase
+        const auth = firebase.auth();
+        const app = initializeApp(firebaseConfig);
+
+
+    </script>
+</body>
+
+</html>

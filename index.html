@@ -5,10 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDo App</title>
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <div class="initial-page">
+        <div class="title">
+            <h2>ToDo List App</h2>
+        </div>
+        <div class="section">
+            <div class="container">
+                <button class="btn-cad">Cadastrar</button>
+            </div>
+            <div class="container">
+                <button class="btn-login">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cadastrar">
+        <h2>Cadastro</h2>
+        <form action="" method="post" class="cad__form">
+            <input type="email" name="emailCad" placeholder="Email">
+            <input type="password" name="passwordCad" placeholder="Senha">
+            <input type="submit" value="Cadastrar">
+        </form>
+    </div>
+
     <div class="login">
         <h2>Login</h2>
         <form action="" method="post" class="login__form">
@@ -21,6 +44,9 @@
     <div class="container-login">
         <div class="tasksList">
             <h1>Tarefas</h1>
+            <ul class="tasks">
+                <li><span></span></li>
+            </ul>
         </div>
         <div class="cad_task">
             <form class="conteiner-login__cadTask">
@@ -31,13 +57,13 @@
                 </div>
                 <div class="div_form">
                     <label for="datatime">Data e Hora:</label>
-                    <input type="datetime-local" name="datatime">
+                    <input type="date" name="datatime" id="">
                 </div>
                 <input type="submit" value="+Tarefa" name="acao">
             </form>
-            <div class="btn-logout"><button class="logout">Sair</button>  </div>  
+            <div class="btn-logout"><button class="logout">Sair</button> </div>
         </div>
-        
+
     </div>
 
 
@@ -64,9 +90,62 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
 
+        let db = firebase.firestore();
+
         let usuario = null;
         let formLogin = document.querySelector('form.login__form');
         let logout = document.querySelector('.logout');
+
+        let BtnLogin = document.querySelector('.btn-login');
+        let BtnCad = document.querySelector('.btn-cad');
+
+        let cadForm = document.querySelector('.cad__form');
+
+        BtnCad.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('.container-login').style.display = 'none';
+            document.querySelector('.cadastrar').style.display = 'flex';
+            document.querySelector('.login').style.display = 'none';
+            document.querySelector('.initial-page').style.display = 'none';
+        })
+
+        BtnLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('.container-login').style.display = 'none';
+            document.querySelector('.login').style.display = 'flex';
+            document.querySelector('.initial-page').style.display = 'none';
+            document.querySelector('.cadastrar').style.display = 'none';
+        })
+
+
+        cadForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            let email = document.querySelector('input[name="emailCad"]').value;
+            let password = document.querySelector('input[name="passwordCad"]').value;
+            if(email == '' || password == ''){
+                document.querySelector('input').style.border = '1px solid red';
+                document.querySelector('input[name="passwordCad"]').style.border = '1px solid red';
+                return;
+            }else if(password.length < 6){
+                document.querySelector('input[name="passwordCad"]').style.border = '1px solid red';
+                return;
+            }else if(email.indexOf('@') == -1){
+                document.querySelector('input[name="emailCad"]').style.border = '1px solid red';
+                return;
+            }
+            firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredentials) => {
+                let user = userCredentials.user;
+                document.querySelector('.container-login').style.display = 'flex';
+                document.querySelector('.login').style.display = 'none';
+                document.querySelector('.cadastrar').style.display = 'none';
+                document.querySelector('.initial-page').style.display = 'none';
+                console.log(user);
+            }).catch((error) => {
+                document.querySelector('input').style.border = '1px solid red';
+                document.querySelector('input[name="password"]').style.border = '1px solid red';
+            })
+        })
+
 
         formLogin.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -77,36 +156,68 @@
                 let usuario = userCredentials.user;
                 document.querySelector('.container-login').style.display = 'flex';
                 document.querySelector('.login').style.display = 'none';
+                document.querySelector('.cadastrar').style.display = 'none';
+                document.querySelector('.initial-page').style.display = 'none';
                 console.log(usuario);
+
+
             }).catch((error) => {
                 document.querySelector('input').style.border = '1px solid red';
                 document.querySelector('input[name="password"]').style.border = '1px solid red';
-            })  
+            })
+
         })
 
         logout.addEventListener('click', (e) => {
             e.preventDefault();
-            firebase.auth().signOut().then(()=>{
+            firebase.auth().signOut().then(() => {
                 document.querySelector('.container-login').style.display = 'none';
                 document.querySelector('.login').style.display = 'flex';
+                document.querySelector('.initial-page').style.display = 'none';
+                document.querySelector('.cadastrar').style.display = 'none';
                 formLogin.reset();
             }).catch((error) => {
                 console.log(error);
             })
         })
 
+
         firebase.auth().onAuthStateChanged((user) => {
-            if(user){
+            if (user) {
                 usuario = user;
                 document.querySelector('.login').style.display = 'none';
                 document.querySelector('.container-login').style.display = 'flex';
+                document.querySelector('.initial-page').style.display = 'none';
+                document.querySelector('.cadastrar').style.display = 'none';
+
+                db.collection('tasks').where('userId', '==', user.uid).onSnapshot((querySnapshot) => {
+                    let list = document.querySelector('.tasks');
+                    list.innerHTML = '';
+                    let tasks = querySnapshot.docs;
+                    tasks = tasks.sort(function(a,b){
+                        if(a.data().horario < b.data().horario){
+                            return -1;
+                        }else{
+                            return +1;
+                        }
+                    })
+                    tasks.map((val)=>{
+                        list.innerHTML += `<li>${val.data().tarefa} - ${val.data().horario.split(',')[0]} <span id="${val.id}">X</span></li>`
+                    })
+                    tasks.map((val)=>{
+                        if(val.horario.split(',')[0] > new Date().toLocaleDateString('pt-br')){
+                            db.collection('tasks').doc(val.target.id).delete();
+                        }
+                    })
+                })
+                
             }
         });
 
         let formTask = document.querySelector('.conteiner-login__cadTask');
-        
 
-        let db = firebase.firestore();
+
+
 
         formTask.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -115,26 +226,34 @@
             let dateTimeInput = document.querySelector('input[name="datatime"]')
             let taskInput = document.querySelector('textarea[name="task"]')
             let currentDate = new Date().getTime();
-            if(dateTime != '' && task != ''){
-                if(currentDate < new Date(dateTime).getTime()){
+            if (dateTime != '' && task != '') {
+                if (currentDate < new Date(dateTime).getTime()) {
                     dateTimeInput.style.border = '1px solid black';
                     taskInput.style.border = '1px solid black';
                     db.collection('tasks').add({
-                    tarefa:task,
-                    horario: dateTime
-                })
-
-                formTask.reset();
-                }else{
+                        tarefa: task,
+                        horario: new Date(dateTime).toLocaleString('pt-br'),
+                        userId: usuario.uid
+                    })
+                    formTask.reset();
+                } else {
                     dateTimeInput.style.border = '1px solid red';
-                }   
-            }else{
+                }
+            } else {
                 dateTimeInput.style.border = '1px solid red';
                 taskInput.style.border = '1px solid red';
             }
         })
 
-       
+        let removeTask = document.querySelector('.tasks');
+        removeTask.addEventListener('click', (event) => {
+            if (event.target.tagName == 'SPAN') {
+                let confDel = confirm('Deseja deletar esta tarefa?');
+                if (confDel) {
+                    db.collection('tasks').doc(event.target.id).delete();
+                }
+            }
+        })
 
     </script>
 </body>

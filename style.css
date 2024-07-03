@@ -71,12 +71,11 @@ body{
     flex-direction: row;
     padding: 20px;
     justify-content: space-between;
-    flex-wrap: wrap;
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
     background-color: #eaeaea;
-    flex-wrap: wrap;
+    align-items: center;
 }
 
 .login, .cadastrar{
@@ -139,6 +138,7 @@ form input[type=submit]:hover{
 
 
 .tasksList{
+    margin: 20px 0;
     width: 60%;
     background-color: white;
     order: 2;
@@ -231,6 +231,15 @@ form .div_form textarea{
 }
 
 @media screen and (max-width: 860px) {
+    .initial-page .container{
+        flex-direction: column;
+    }
+    
+    .initial-page .section{
+        flex-direction: column;
+    }
+    
+
     .container-login{
         flex-direction: column;
         align-items: center;
@@ -247,7 +256,7 @@ form .div_form textarea{
     
     .cad_task{
         position: relative;
-        margin-top: 45px;
+        margin-top: 150px;
     }
 
     .cad_task form{
@@ -256,17 +265,23 @@ form .div_form textarea{
 
     .btn-logout{
         position: absolute;
-        top: -25%;
+        top: -30%;
         width: 40%;
     }    
 }
 
 @media screen and (max-width: 310px) {
+    
+    .initial-page .section{
+        flex-direction: column;
+    }
+    
     .cad_task form .div_form{
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
+
 
     .cad_task form .div_form label{
         width: 100%;

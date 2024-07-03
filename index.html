@@ -5,28 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDo App</title>
+   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="login">
         <h2>Login</h2>
-        <form action="">
-            <input type="email" name="email" id="">
-            <input type="password" name="password" id="">
+        <form action="" method="post" class="login__form">
+            <input type="email" name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Senha">
+            <input type="submit" value="Login">
         </form>
     </div>
 
     <div class="container-login">
-        
+        <div class="tasksList">
+            <h1>Tarefas</h1>
+        </div>
+        <form class="conteiner-login__cadTask">
+            <label for="task">Tarefa</label>
+            <textarea name="task"></textarea>
+            <label for="datatime">Data e Hora</label>
+            <input type="datetime-local" name="datatime">
+            <input type="submit" value="+Tarefa" name="acao">
+        </form>
+        <button class="logout">Sair</button>
     </div>
 
+
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-firestore.js"></script>
 
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import firebase from "firebase/compat/app";
-        import "firebase/compat/auth";
-        import { getFirestore } from "firebase/firestore";
         // TODO: Add SDKs for Firebase products that you want to use
         // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -41,9 +54,79 @@
         };
 
         // Initialize Firebase
-        const auth = firebase.auth();
-        const app = initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
 
+        let usuario = null;
+        let formLogin = document.querySelector('form.login__form');
+        let logout = document.querySelector('.logout');
+
+        formLogin.addEventListener('submit', (event) => {
+            event.preventDefault();
+            let email = document.querySelector('input[name="email"]').value;
+            let password = document.querySelector('input[name="password"]').value;
+
+            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredentials) => {
+                let usuario = userCredentials.user;
+                document.querySelector('.container-login').style.display = 'flex';
+                document.querySelector('.login').style.display = 'none';
+                console.log(usuario);
+            }).catch((error) => {
+                document.querySelector('input').style.border = '1px solid red';
+                document.querySelector('input[name="password"]').style.border = '1px solid red';
+            })  
+        })
+
+        logout.addEventListener('click', (e) => {
+            e.preventDefault();
+            firebase.auth().signOut().then(()=>{
+                document.querySelector('.container-login').style.display = 'none';
+                document.querySelector('.login').style.display = 'flex';
+                formLogin.reset();
+            }).catch((error) => {
+                console.log(error);
+            })
+        })
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if(user){
+                usuario = user;
+                document.querySelector('.login').style.display = 'none';
+                document.querySelector('.container-login').style.display = 'flex';
+            }
+        });
+
+        let formTask = document.querySelector('.conteiner-login__cadTask');
+        
+
+        let db = firebase.firestore();
+
+        formTask.addEventListener('submit', (event) => {
+            event.preventDefault();
+            let dateTime = document.querySelector('input[name="datatime"]').value;
+            let task = document.querySelector('textarea[name="task"]').value;
+            let dateTimeInput = document.querySelector('input[name="datatime"]')
+            let taskInput = document.querySelector('textarea[name="task"]')
+            let currentDate = new Date().getTime();
+            if(dateTime != '' && task != ''){
+                if(currentDate < new Date(dateTime).getTime()){
+                    dateTimeInput.style.border = '1px solid black';
+                    taskInput.style.border = '1px solid black';
+                    db.collection('tasks').add({
+                    tarefa:task,
+                    horario: dateTime
+                })
+
+                formTask.reset();
+                }else{
+                    dateTimeInput.style.border = '1px solid red';
+                }   
+            }else{
+                dateTimeInput.style.border = '1px solid red';
+                taskInput.style.border = '1px solid red';
+            }
+        })
+
+       
 
     </script>
 </body>

@@ -68,14 +68,13 @@ body{
 
 .container-login{
     display: none;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
-    justify-content: space-between;
     width: 100%;
-    max-width: 100%;
     min-height: 100vh;
     background-color: #eaeaea;
-    align-items: center;
 }
 
 .login, .cadastrar{
@@ -138,8 +137,7 @@ form input[type=submit]:hover{
 
 
 .tasksList{
-    margin: 20px 0;
-    width: 60%;
+    width: 78.6%;
     background-color: white;
     order: 2;
     display: flex;
@@ -151,17 +149,20 @@ form input[type=submit]:hover{
 }
 
 .cad_task{
-    width: 40%;
+    width: 80%;
     height: 400px;
     display: flex;
-    flex-direction: column;
+    margin: 0px auto 10px auto;
+    justify-content: space-around;
 }
 
-.container-login__cadTask{
-    height: 400px;
+.form_stl form{
+    width: 100%;
+    height: 100%;
 }
 
 .container-login form h2{
+    
     text-align: center;
     margin-bottom: 20px;
     font-size: 30px;
@@ -190,9 +191,6 @@ form .div_form textarea{
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
-.btn-logout{
-    margin-top: 40px;
-}
 
 .btn-logout button{
     padding: 10px;
@@ -201,12 +199,13 @@ form .div_form textarea{
     background-color: #45a049;
     color: white;
     border: none;
-    width: 40%;
     cursor: pointer;
+    width: 10%;
 }
 
 .btn-logout button:hover{
     background-color: brown;
+   
 }
 
 .tasks{
@@ -230,6 +229,17 @@ form .div_form textarea{
     color: red;
 }
 
+.form_stl{
+    width: 100%;
+    order: 2;
+    margin: 0;
+}
+
+.btn-logout{
+    order: 1;
+    width: 100%;
+}
+
 @media screen and (max-width: 850px) {
     .initial-page .container{
         flex-direction: column;
@@ -243,42 +253,35 @@ form .div_form textarea{
     .container-login{
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         background-color: #f2f2f2;
         height: 100%;
+        padding: 20px;
         width: 100%;
     }
-    .cad_task,
-    .tasksList{
-        width: 97%;
-        margin-left: 0;
+
+    .form_stl{
+        margin: 10px 0;
     }
 
     .cad_task{
         flex-direction: column;
+        width: 100%;
     }
 
-    .form_stl{
-        width: 100%;
-        order: 2;
-    }
+  
 
-    .cad_task form{
+    .tasksList{
         width: 100%;
-        height: 100%;
-    }
-
-    .btn-logout{
-        order: 1;
-        width: 100%;
-        margin: 20px 0;
     }
 
     .btn-logout button{
         width: 100%;
     }
+
+    
       
-    }    
+}    
 
 
 @media screen and (max-width: 310px) {

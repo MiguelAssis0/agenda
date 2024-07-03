@@ -22,14 +22,22 @@
         <div class="tasksList">
             <h1>Tarefas</h1>
         </div>
-        <form class="conteiner-login__cadTask">
-            <label for="task">Tarefa</label>
-            <textarea name="task"></textarea>
-            <label for="datatime">Data e Hora</label>
-            <input type="datetime-local" name="datatime">
-            <input type="submit" value="+Tarefa" name="acao">
-        </form>
-        <button class="logout">Sair</button>
+        <div class="cad_task">
+            <form class="conteiner-login__cadTask">
+                <h2>Criar Tarefa</h2>
+                <div class="div_form">
+                    <label for="task">Tarefa:</label>
+                    <textarea name="task"></textarea>
+                </div>
+                <div class="div_form">
+                    <label for="datatime">Data e Hora:</label>
+                    <input type="datetime-local" name="datatime">
+                </div>
+                <input type="submit" value="+Tarefa" name="acao">
+            </form>
+            <div class="btn-logout"><button class="logout">Sair</button>  </div>  
+        </div>
+        
     </div>
 
 

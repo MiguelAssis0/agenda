@@ -1,89 +1,246 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/10.12.2/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/10.12.2/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/10.12.2/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentorConnect - Plataforma de Mentoria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-      });
-    </script>
-  </body>
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-600 cursor-pointer" onclick="navigateTo('home')">MentorConnect</h1>
+                </div>
+                <div id="nav-links" class="flex items-center space-x-4">
+                    <button onclick="navigateTo('home')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Início</button>
+                    <button onclick="navigateTo('pricing')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Planos</button>
+                    <button onclick="navigateTo('login')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Entrar</button>
+                    <button onclick="navigateTo('register')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Cadastrar</button>
+                </div>
+                <div id="nav-user" class="hidden flex items-center space-x-4">
+                    <span id="user-name" class="text-gray-700 text-sm"></span>
+                    <button onclick="navigateTo('dashboard')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Dashboard</button>
+                    <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700">Sair</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="app" class="min-h-screen">
+        <!-- Home Page -->
+        <div id="page-home" class="page">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-5xl font-bold mb-6">Conectando Mentores e Talentos</h1>
+                    <p class="text-xl mb-8">A plataforma completa para mentorias profissionais e recrutamento inclusivo</p>
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="navigateTo('register')" class="bg-white text-blue-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100">Começar Agora</button>
+                        <button onclick="navigateTo('pricing')" class="bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600">Ver Planos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <h2 class="text-3xl font-bold text-center mb-12">Como Funciona</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl">👨‍🎓</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Para Mentorados</h3>
+                        <p class="text-gray-600">Crie seu currículo, encontre mentores e agende mentorias gratuitas ou pagas</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl">👨‍🏫</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Para Mentores</h3>
+                        <p class="text-gray-600">Compartilhe seu conhecimento, defina sua disponibilidade e monetize suas mentorias</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl">🏢</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Para Empresas</h3>
+                        <p class="text-gray-600">Publique vagas e encontre talentos qualificados, incluindo profissionais PCD</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="page-login" class="page hidden">
+            <div class="max-w-md mx-auto px-4 py-16">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold text-center mb-6">Entrar</h2>
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                            <input type="password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-semibold">Entrar</button>
+                    </form>
+                    <p class="text-center mt-4 text-sm text-gray-600">
+                        Não tem conta? <button onclick="navigateTo('register')" class="text-blue-600 hover:underline">Cadastre-se</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="page-register" class="page hidden">
+            <div class="max-w-md mx-auto px-4 py-16">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold text-center mb-6">Cadastrar</h2>
+                    <form id="register-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                            <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Senha (mínimo 6 caracteres)</label>
+                            <input type="password" name="password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Conta</label>
+                            <select name="role" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Selecione...</option>
+                                <option value="mentorado">Mentorado - Busco mentoria</option>
+                                <option value="mentor">Mentor - Ofereço mentoria</option>
+                                <option value="empresa">Empresa - Busco talentos</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-semibold">Cadastrar</button>
+                    </form>
+                    <p class="text-center mt-4 text-sm text-gray-600">
+                        Já tem conta? <button onclick="navigateTo('login')" class="text-blue-600 hover:underline">Entre aqui</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Page -->
+        <div id="page-pricing" class="page hidden">
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <h2 class="text-4xl font-bold text-center mb-4">Escolha Seu Plano</h2>
+                <p class="text-center text-gray-600 mb-12">Planos flexíveis para cada necessidade</p>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Free Plan -->
+                    <div class="bg-white p-8 rounded-lg shadow-md border-2 border-gray-200">
+                        <h3 class="text-2xl font-bold mb-2">Free</h3>
+                        <p class="text-gray-600 mb-4">Para começar</p>
+                        <p class="text-4xl font-bold mb-6">R$ 0<span class="text-lg text-gray-600">/mês</span></p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Mentorias gratuitas ilimitadas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Criar currículo básico</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Buscar mentores</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-500 mr-2">✗</span>
+                                <span class="text-gray-400">Mentorias pagas</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('free')" class="w-full bg-gray-200 text-gray-800 py-2 rounded-md hover:bg-gray-300 font-semibold">Plano Atual</button>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-blue-600 transform scale-105">
+                        <div class="bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2">Mais Popular</div>
+                        <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                        <p class="text-gray-600 mb-4">Para profissionais</p>
+                        <p class="text-4xl font-bold mb-6">R$ 49<span class="text-lg text-gray-600">/mês</span></p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Tudo do plano Free</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Mentorias pagas ilimitadas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Currículo completo</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Prioridade no agendamento</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('pro')" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-semibold">Assinar Pro</button>
+                    </div>
+
+                    <!-- Enterprise Plan -->
+                    <div class="bg-white p-8 rounded-lg shadow-md border-2 border-gray-200">
+                        <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                        <p class="text-gray-600 mb-4">Para empresas</p>
+                        <p class="text-4xl font-bold mb-6">R$ 299<span class="text-lg text-gray-600">/mês</span></p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Publicar vagas ilimitadas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Busca avançada de talentos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Filtro de candidatos PCD</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Suporte prioritário</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('enterprise')" class="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 font-semibold">Assinar Enterprise</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="page hidden">
+            <div id="dashboard-mentorado" class="dashboard-content hidden"></div>
+            <div id="dashboard-mentor" class="dashboard-content hidden"></div>
+            <div id="dashboard-empresa" class="dashboard-content hidden"></div>
+        </div>
+    </main>
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <script src="app.js"></script>
+</body>
 </html>

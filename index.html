@@ -1,264 +1,246 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo App</title>
-    <link rel="stylesheet" href="style.css">
+    <title>MentorConnect - Plataforma de Mentoria</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-
-<body>
-    <div class="initial-page">
-        <div class="title">
-            <h2>ToDo List App</h2>
-        </div>
-        <div class="section">
-            <div class="container">
-                <button class="btn-cad">Cadastrar</button>
-            </div>
-            <div class="container">
-                <button class="btn-login">Login</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="cadastrar">
-        <h2>Cadastro</h2>
-        <form action="" method="post" class="cad__form">
-            <input type="email" name="emailCad" placeholder="Email">
-            <input type="password" name="passwordCad" placeholder="Senha">
-            <input type="submit" value="Cadastrar">
-        </form>
-    </div>
-
-    <div class="login">
-        <h2>Login</h2>
-        <form action="" method="post" class="login__form">
-            <input type="email" name="email" placeholder="Email">
-            <input type="password" name="password" placeholder="Senha">
-            <input type="submit" value="Login">
-        </form>
-    </div>
-
-    <div class="container-login">
-        <div class="tasksList">
-            <h1>Tarefas</h1>
-            <ul class="tasks">
-                <li><span></span></li>
-            </ul>
-        </div>
-        <div class="cad_task">
-                <div class="form_stl">
-                    <form class="conteiner-login__cadTask">
-                        <h2>Criar Tarefa</h2>
-                        <div class="div_form">
-                            <label for="task">Tarefa:</label>
-                            <textarea name="task"></textarea>
-                        </div>
-                        <div class="div_form">
-                            <label for="datatime">Data e Hora:</label>
-                            <input type="date" name="datatime" id="">
-                        </div>
-                        <input type="submit" value="+Tarefa" name="acao">
-                    </form>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav id="navbar" class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold text-blue-600 cursor-pointer" onclick="navigateTo('home')">MentorConnect</h1>
                 </div>
-            <div class="btn-logout"><button class="logout">Sair</button> </div>
+                <div id="nav-links" class="flex items-center space-x-4">
+                    <button onclick="navigateTo('home')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Início</button>
+                    <button onclick="navigateTo('pricing')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Planos</button>
+                    <button onclick="navigateTo('login')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Entrar</button>
+                    <button onclick="navigateTo('register')" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700">Cadastrar</button>
+                </div>
+                <div id="nav-user" class="hidden flex items-center space-x-4">
+                    <span id="user-name" class="text-gray-700 text-sm"></span>
+                    <button onclick="navigateTo('dashboard')" class="text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium">Dashboard</button>
+                    <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-700">Sair</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="app" class="min-h-screen">
+        <!-- Home Page -->
+        <div id="page-home" class="page">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h1 class="text-5xl font-bold mb-6">Conectando Mentores e Talentos</h1>
+                    <p class="text-xl mb-8">A plataforma completa para mentorias profissionais e recrutamento inclusivo</p>
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="navigateTo('register')" class="bg-white text-blue-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-100">Começar Agora</button>
+                        <button onclick="navigateTo('pricing')" class="bg-blue-700 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600">Ver Planos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <h2 class="text-3xl font-bold text-center mb-12">Como Funciona</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl">👨‍🎓</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Para Mentorados</h3>
+                        <p class="text-gray-600">Crie seu currículo, encontre mentores e agende mentorias gratuitas ou pagas</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl">👨‍🏫</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Para Mentores</h3>
+                        <p class="text-gray-600">Compartilhe seu conhecimento, defina sua disponibilidade e monetize suas mentorias</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                        <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-3xl">🏢</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Para Empresas</h3>
+                        <p class="text-gray-600">Publique vagas e encontre talentos qualificados, incluindo profissionais PCD</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
+        <!-- Login Page -->
+        <div id="page-login" class="page hidden">
+            <div class="max-w-md mx-auto px-4 py-16">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold text-center mb-6">Entrar</h2>
+                    <form id="login-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                            <input type="password" name="password" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-semibold">Entrar</button>
+                    </form>
+                    <p class="text-center mt-4 text-sm text-gray-600">
+                        Não tem conta? <button onclick="navigateTo('register')" class="text-blue-600 hover:underline">Cadastre-se</button>
+                    </p>
+                </div>
+            </div>
+        </div>
 
+        <!-- Register Page -->
+        <div id="page-register" class="page hidden">
+            <div class="max-w-md mx-auto px-4 py-16">
+                <div class="bg-white p-8 rounded-lg shadow-md">
+                    <h2 class="text-3xl font-bold text-center mb-6">Cadastrar</h2>
+                    <form id="register-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                            <input type="text" name="name" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                            <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Senha (mínimo 6 caracteres)</label>
+                            <input type="password" name="password" required minlength="6" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Conta</label>
+                            <select name="role" required class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="">Selecione...</option>
+                                <option value="mentorado">Mentorado - Busco mentoria</option>
+                                <option value="mentor">Mentor - Ofereço mentoria</option>
+                                <option value="empresa">Empresa - Busco talentos</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-semibold">Cadastrar</button>
+                    </form>
+                    <p class="text-center mt-4 text-sm text-gray-600">
+                        Já tem conta? <button onclick="navigateTo('login')" class="text-blue-600 hover:underline">Entre aqui</button>
+                    </p>
+                </div>
+            </div>
+        </div>
 
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.3/firebase-firestore.js"></script>
-
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAfKUdPBJKjAGPuV3I-u5PztLS-bFtZSB4",
-            authDomain: "todolist-a606d.firebaseapp.com",
-            projectId: "todolist-a606d",
-            storageBucket: "todolist-a606d.appspot.com",
-            messagingSenderId: "135648246164",
-            appId: "1:135648246164:web:6e4aff4a03d274dace3781"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-
-        let db = firebase.firestore();
-
-        let usuario = null;
-        let formLogin = document.querySelector('form.login__form');
-        let logout = document.querySelector('.logout');
-
-        let BtnLogin = document.querySelector('.btn-login');
-        let BtnCad = document.querySelector('.btn-cad');
-
-        let cadForm = document.querySelector('.cad__form');
-
-        BtnCad.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelector('.container-login').style.display = 'none';
-            document.querySelector('.cadastrar').style.display = 'flex';
-            document.querySelector('.login').style.display = 'none';
-            document.querySelector('.initial-page').style.display = 'none';
-        })
-
-        BtnLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelector('.container-login').style.display = 'none';
-            document.querySelector('.login').style.display = 'flex';
-            document.querySelector('.initial-page').style.display = 'none';
-            document.querySelector('.cadastrar').style.display = 'none';
-        })
-
-
-        cadForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            let email = document.querySelector('input[name="emailCad"]').value;
-            let password = document.querySelector('input[name="passwordCad"]').value;
-            if(email == '' || password == ''){
-                document.querySelector('input').style.border = '1px solid red';
-                document.querySelector('input[name="passwordCad"]').style.border = '1px solid red';
-                return;
-            }else if(password.length < 6){
-                document.querySelector('input[name="passwordCad"]').style.border = '1px solid red';
-                alert('A senha deve conter pelo menos 6 digitos');
-                return;
-            }else if(email.indexOf('@') == -1){
-                document.querySelector('input[name="emailCad"]').style.border = '1px solid red';
-                return;
-            }
-            firebase.auth().createUserWithEmailAndPassword(email, password).then((userCredentials) => {
-                let user = userCredentials.user;
-                document.querySelector('.container-login').style.display = 'flex';
-                document.querySelector('.login').style.display = 'none';
-                document.querySelector('.cadastrar').style.display = 'none';
-                document.querySelector('.initial-page').style.display = 'none';
-                console.log(user);
-            }).catch((error) => {
-                document.querySelector('input').style.border = '1px solid red';
-                document.querySelector('input[name="password"]').style.border = '1px solid red';
-            })
-        })
-
-
-        formLogin.addEventListener('submit', (event) => {
-            event.preventDefault();
-            let email = document.querySelector('input[name="email"]').value;
-            let password = document.querySelector('input[name="password"]').value;
-
-            firebase.auth().signInWithEmailAndPassword(email, password).then((userCredentials) => {
-                let usuario = userCredentials.user;
-                document.querySelector('.container-login').style.display = 'flex';
-                document.querySelector('.login').style.display = 'none';
-                document.querySelector('.cadastrar').style.display = 'none';
-                document.querySelector('.initial-page').style.display = 'none';
-                console.log(usuario);
-
-
-            }).catch((error) => {
-                document.querySelector('input').style.border = '1px solid red';
-                document.querySelector('input[name="password"]').style.border = '1px solid red';
-            })
-
-        })
-
-        logout.addEventListener('click', (e) => {
-            e.preventDefault();
-            firebase.auth().signOut().then(() => {
-                document.querySelector('.container-login').style.display = 'none';
-                document.querySelector('.login').style.display = 'flex';
-                document.querySelector('.initial-page').style.display = 'none';
-                document.querySelector('.cadastrar').style.display = 'none';
-                formLogin.reset();
-            }).catch((error) => {
-                console.log(error);
-            })
-        })
-
-
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) {
-                usuario = user;
-                document.querySelector('.login').style.display = 'none';
-                document.querySelector('.container-login').style.display = 'flex';
-                document.querySelector('.initial-page').style.display = 'none';
-                document.querySelector('.cadastrar').style.display = 'none';
-
-                db.collection('tasks').where('userId', '==', user.uid).onSnapshot((querySnapshot) => {
-                    let list = document.querySelector('.tasks');
-                    list.innerHTML = '';
-                    let tasks = querySnapshot.docs;
-                    tasks = tasks.sort(function(a,b){
-                        if(a.data().horario < b.data().horario){
-                            return -1;
-                        }else{
-                            return +1;
-                        }
-                    })
-                    tasks.map((val)=>{
-                        list.innerHTML += `<li>${val.data().tarefa} - ${val.data().horario.split(',')[0]} <span id="${val.id}">X</span></li>`
-                    })
-                    tasks.map((val)=>{
-                        if(val.horario.split(',')[0] > new Date().toLocaleDateString('pt-br')){
-                            db.collection('tasks').doc(val.target.id).delete();
-                        }
-                    })
-                })
+        <!-- Pricing Page -->
+        <div id="page-pricing" class="page hidden">
+            <div class="max-w-7xl mx-auto px-4 py-16">
+                <h2 class="text-4xl font-bold text-center mb-4">Escolha Seu Plano</h2>
+                <p class="text-center text-gray-600 mb-12">Planos flexíveis para cada necessidade</p>
                 
-            }
-        });
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Free Plan -->
+                    <div class="bg-white p-8 rounded-lg shadow-md border-2 border-gray-200">
+                        <h3 class="text-2xl font-bold mb-2">Free</h3>
+                        <p class="text-gray-600 mb-4">Para começar</p>
+                        <p class="text-4xl font-bold mb-6">R$ 0<span class="text-lg text-gray-600">/mês</span></p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Mentorias gratuitas ilimitadas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Criar currículo básico</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Buscar mentores</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-red-500 mr-2">✗</span>
+                                <span class="text-gray-400">Mentorias pagas</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('free')" class="w-full bg-gray-200 text-gray-800 py-2 rounded-md hover:bg-gray-300 font-semibold">Plano Atual</button>
+                    </div>
 
-        let formTask = document.querySelector('.conteiner-login__cadTask');
+                    <!-- Pro Plan -->
+                    <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-blue-600 transform scale-105">
+                        <div class="bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full inline-block mb-2">Mais Popular</div>
+                        <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                        <p class="text-gray-600 mb-4">Para profissionais</p>
+                        <p class="text-4xl font-bold mb-6">R$ 49<span class="text-lg text-gray-600">/mês</span></p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Tudo do plano Free</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Mentorias pagas ilimitadas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Currículo completo</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Prioridade no agendamento</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('pro')" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 font-semibold">Assinar Pro</button>
+                    </div>
 
+                    <!-- Enterprise Plan -->
+                    <div class="bg-white p-8 rounded-lg shadow-md border-2 border-gray-200">
+                        <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                        <p class="text-gray-600 mb-4">Para empresas</p>
+                        <p class="text-4xl font-bold mb-6">R$ 299<span class="text-lg text-gray-600">/mês</span></p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Publicar vagas ilimitadas</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Busca avançada de talentos</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Filtro de candidatos PCD</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-green-500 mr-2">✓</span>
+                                <span>Suporte prioritário</span>
+                            </li>
+                        </ul>
+                        <button onclick="selectPlan('enterprise')" class="w-full bg-purple-600 text-white py-2 rounded-md hover:bg-purple-700 font-semibold">Assinar Enterprise</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="page hidden">
+            <div id="dashboard-mentorado" class="dashboard-content hidden"></div>
+            <div id="dashboard-mentor" class="dashboard-content hidden"></div>
+            <div id="dashboard-empresa" class="dashboard-content hidden"></div>
+        </div>
+    </main>
 
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-        formTask.addEventListener('submit', (event) => {
-            event.preventDefault();
-            let dateTime = document.querySelector('input[name="datatime"]').value;
-            let task = document.querySelector('textarea[name="task"]').value;
-            let dateTimeInput = document.querySelector('input[name="datatime"]')
-            let taskInput = document.querySelector('textarea[name="task"]')
-            let currentDate = new Date().getTime();
-            if (dateTime != '' && task != '') {
-                if (currentDate < new Date(dateTime).getTime()) {
-                    dateTimeInput.style.border = '1px solid black';
-                    taskInput.style.border = '1px solid black';
-                    db.collection('tasks').add({
-                        tarefa: task,
-                        horario: new Date(dateTime).toLocaleString('pt-br'),
-                        userId: usuario.uid
-                    })
-                    formTask.reset();
-                } else {
-                    dateTimeInput.style.border = '1px solid red';
-                }
-            } else {
-                dateTimeInput.style.border = '1px solid red';
-                taskInput.style.border = '1px solid red';
-            }
-        })
-
-        let removeTask = document.querySelector('.tasks');
-        removeTask.addEventListener('click', (event) => {
-            if (event.target.tagName == 'SPAN') {
-                let confDel = confirm('Deseja deletar esta tarefa?');
-                if (confDel) {
-                    db.collection('tasks').doc(event.target.id).delete();
-                }
-            }
-        })
-
-    </script>
+    <script src="app.js"></script>
 </body>
-
 </html>
